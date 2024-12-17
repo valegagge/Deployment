@@ -75,11 +75,9 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
         -DNON_INTERACTIVE_BUILD:BOOL=ON \
         -DROBOTOLOGY_ENABLE_CORE:BOOL=ON \
         -DROBOTOLOGY_ENABLE_ICUB_HEAD:BOOL=ON \
-        #-DYCM_USE_DEPRECATED:BOOL=OFF \
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
         -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \
-        #-DENABLE_yarpmod_grabber:BOOL=ON \
        &&\
     #Build all the projects &&\
     cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
