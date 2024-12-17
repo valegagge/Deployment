@@ -72,14 +72,14 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
       cmake .. \
         -G "$CMAKE_GENERATOR" \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-        #-DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
         -DNON_INTERACTIVE_BUILD:BOOL=ON \
         -DROBOTOLOGY_ENABLE_CORE:BOOL=ON \
         -DROBOTOLOGY_ENABLE_ICUB_HEAD:BOOL=ON \
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
+        -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
         # maybe remove for errors on children build with YCM
-        #-DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
         #-DFETCHCONTENT_QUIET:BOOL=ON \
         #-DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
        &&\
