@@ -378,16 +378,14 @@ jobs:
             #     private_key: ${{ secrets.ICUB_TECH_IIT_APP_KEY }}
             #     installation_retrieval_mode: repository
             #     installation_retrieval_payload: icub-tech-iit/code
-            # this step ensures that the children are built with the "release" version, which is used when the "repository_trigger" is sent
-            - name: Repository Dispatch for release
-              if: github.event.client_payload.type == 'repository_trigger'
+            
+            # in the case where we are building "master" versions, we need to send a trigger that build only master, e.g.: "cron_trigger"
+            - name: Repository Dispatch for master
+              if: github.event == 'push'
               uses: peter-evans/repository-dispatch@v3
-              env:
-                GITHUB_APPS_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
               with:
-                token: ${{ secrets.GITHUB_APPS_TOKEN  }}
+                token: ${{ secrets.GITHUB_TOKEN  }}
                 repository: ${{ env.REPOSITORY_NAME }}
-                event-type: repository_trigger
-                client-payload: '{"repo": {"name": "${{ github.repository }}", "branch": "feature/updateImages" },"version": "${{ github.event.client_payload.version }}", "type": "repository_trigger", "img_list": "${{ needs.check_files.outputs.children_matrix }}"}'
-                
-    
+                event-type: cron_trigger
+                client-payload: '{"type": "cron_trigger", "img_list": "${{ needs.check_files.outputs.children_matrix }}"}'
+                    

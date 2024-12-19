@@ -79,9 +79,9 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
         -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
-        # maybe remove for errors on children build with YCM
-        #-DFETCHCONTENT_QUIET:BOOL=ON \
-        #-DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
+        -DFETCHCONTENT_QUIET:BOOL=ON \
+        -DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
+        #-DYCM_DIR=${INSTALL_DIR}/share/YCM \
        &&\
     #Build all the projects &&\
     cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
@@ -104,6 +104,7 @@ COPY --from=builder / /
 # # The bashrc is read only when opening an interactive shell. Let other projects find packages contained
 # # in the superbuild.
 ENV CMAKE_PREFIX_PATH=${INSTALL_DIR}
+# ENV YCM_EP_INSTALL_DIR=${INSTALL_DIR}
 
 #The EXPOSE instruction does not actually publish the port.
 #It functions as a type of documentation between the person who builds the image and the person who runs the container, about which ports are intended to be published.
