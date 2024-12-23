@@ -81,7 +81,9 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
-        #-DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \
+        -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
+        -DFETCHCONTENT_QUIET:BOOL=ON \
+        -DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
        &&\
     #Build all the projects
     cmake --build . -- ${CMAKE_EXTRA_OPTIONS}

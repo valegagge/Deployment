@@ -9,7 +9,7 @@ ARG sbtag="none"
 ARG metadata="none"
 
 # Stage 1: build stage
-FROM $SOURCE_IMG as builder
+FROM $SOURCE_IMG AS builder
 
 LABEL maintainer="valentina.gaggero@iit.it, jacopo.losi@iit.it"
 
@@ -57,7 +57,6 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \
         &&\
         # Build all the projects
-        cmake --build . --target update-all -- -j4 &&\
         cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
 
 # Stage 2: scratch stage
