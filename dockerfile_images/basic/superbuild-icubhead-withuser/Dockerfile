@@ -88,7 +88,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
     #Build all the projects
     cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
 
-FROM ${START_IMG} AS finalstage 
+FROM scratch
 
 ARG PROJECTS_DIR
 ARG INSTALL_DIR
