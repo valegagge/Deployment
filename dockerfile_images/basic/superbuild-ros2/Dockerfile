@@ -12,8 +12,8 @@ ARG ROS_DISTRO=humble
 #ARG SUPERBUILD_IMG=icubteamcode/superbuild-icubhead:master-unstable_sources
 ARG PROJECTS_DIR=/projects
 
-FROM $START_IMG as superbuild_builder
-FROM $ROS_IMG as ros_builder
+FROM $START_IMG AS superbuild_builder
+FROM $ROS_IMG AS ros_builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 

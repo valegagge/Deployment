@@ -61,7 +61,6 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
         -DFETCHCONTENT_QUIET:BOOL=ON \
-        #-DYCM_DIR=${INSTALL_DIR}/share/YCM \
         -DYCM_USE_CMAKE_PROPOSED=ON \
         &&\
         # Build all the projects

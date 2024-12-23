@@ -76,19 +76,6 @@ RUN mkdir ${PROJECTS_DIR} && cd ${PROJECTS_DIR} &&\
 # This steps should theoretically help cleaning unecessary post-build files that are already installed and that can be eventually re-generated
 RUN rm -rf ${PROJECTS_DIR}/robotology-superbuild/build/src &&\
     echo "source ${INSTALL_DIR}/share/robotology-superbuild/setup.sh" >> $ROBOTOLOGY_INITIALIZATION_FILE
-    
-
-# Do we still need this repo from appsAway??
-# RUN cd ${PROJECTS_DIR} && \
-#     git clone https://github.com/icub-tech-iit/appsAway.git && \
-#     cd  appsAway/modules/checkRobotInterface && \
-#     mkdir build && cd build && \
-#     cmake .. \
-#         -G "$CMAKE_GENERATOR" \
-#         -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-#         &&\
-#     cmake --build . -- ${CMAKE_EXTRA_OPTIONS} && \
-#     cp ./checkRobotInterface /usr/local/bin
 
 # Stage 2: secondstage stage
 FROM $START_IMG  AS secondstage
