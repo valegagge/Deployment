@@ -14,7 +14,7 @@ ARG ROBOTOLOGY_INITIALIZATION_FILE=/usr/local/bin/setup_robotology_tdd.sh
 # Define default user
 ARG USERNAME=icub
 
-FROM $SOURCE_IMG as superbuild_builder
+FROM $SOURCE_IMG AS superbuild_builder
 
 LABEL maintainer="valentina.gaggero@iit.it, jacopo.losi@iit.it"
 
@@ -39,6 +39,8 @@ COPY setup.sh ${ROBOTOLOGY_INITIALIZATION_FILE}
 RUN sudo chown -R icub: /usr/local/bin/entrypoint.sh
 RUN sudo chown -R icub: /usr/local/bin/setup_robotology_tdd.sh
 
+# RUN rm -rf ${INSTALL_DIR}/share/cmake/YCM/
+
 # Some other definitions
 ARG CMAKE_GENERATOR="Unix Makefiles"
 ARG BUILD_TYPE=Release
@@ -48,6 +50,7 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
     cd build &&\
     cmake .. \
     -G "$CMAKE_GENERATOR" \
+        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
         -DNON_INTERACTIVE_BUILD:BOOL=ON \
         -DROBOTOLOGY_ENABLE_CORE:BOOL=ON \
@@ -58,10 +61,9 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
         -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \
-        -DENABLE_yarpmod_grabber:BOOL=ON \
+        -DYCM_USE_CMAKE_PROPOSED=ON \
         &&\
         # Build all the projects
-        cmake --build . --target update-all -- ${CMAKE_EXTRA_OPTIONS} &&\
         cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
 
 FROM scratch
