@@ -2,8 +2,8 @@
 ARG START_IMG="none"
 
 ARG HOME_DIR=/home/icub
-ARG INSTALL_DIR=${HOME_DIR}/install_dir
 ARG PROJECTS_DIR=${HOME_DIR}/projects
+ARG INSTALL_DIR=${PROJECTS_DIR}/robotology-superbuild/build/install
 ARG release="master"
 ARG sbtag="Stable"
 ARG metadata="data"
@@ -46,6 +46,8 @@ RUN sudo mkdir /etc/bash_completion.d/ &&\
     sudo apt-get update &&\
     sudo apt-get install -y \
         # MISC
+        build-essential \
+        libssl-dev \
         bash-completion \
         git \
         vim \
@@ -78,12 +80,10 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
         -DROBOTOLOGY_ENABLE_ICUB_HEAD:BOOL=ON \
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
-        -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
         -DFETCHCONTENT_QUIET:BOOL=ON \
         -DYCM_USE_CMAKE_PROPOSED:BOOL=ON \
-        #-DYCM_DIR=${INSTALL_DIR}/share/YCM \
        &&\
-    #Build all the projects &&\
+    #Build all the projects 
     cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
 
 FROM scratch 
@@ -104,7 +104,6 @@ COPY --from=builder / /
 # # The bashrc is read only when opening an interactive shell. Let other projects find packages contained
 # # in the superbuild.
 ENV CMAKE_PREFIX_PATH=${INSTALL_DIR}
-# ENV YCM_EP_INSTALL_DIR=${INSTALL_DIR}
 
 #The EXPOSE instruction does not actually publish the port.
 #It functions as a type of documentation between the person who builds the image and the person who runs the container, about which ports are intended to be published.

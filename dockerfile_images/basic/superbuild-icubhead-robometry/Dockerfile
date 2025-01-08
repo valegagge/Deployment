@@ -4,7 +4,7 @@ ARG SOURCE_IMG="none"
 
 ARG HOME_DIR=/home/icub
 ARG PROJECTS_DIR=${HOME_DIR}/projects
-ARG INSTALL_DIR=${HOME_DIR}/install_dir
+ARG INSTALL_DIR=${PROJECTS_DIR}/robotology-superbuild/build/install
 ARG release="master"
 ARG sbtag="Stable"
 ARG metadata="data"
@@ -39,8 +39,6 @@ COPY setup.sh ${ROBOTOLOGY_INITIALIZATION_FILE}
 RUN sudo chown -R icub: /usr/local/bin/entrypoint.sh
 RUN sudo chown -R icub: /usr/local/bin/setup_robotology_tdd.sh
 
-# RUN rm -rf ${INSTALL_DIR}/share/cmake/YCM/
-
 # Some other definitions
 ARG CMAKE_GENERATOR="Unix Makefiles"
 ARG BUILD_TYPE=Release
@@ -55,13 +53,11 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         -DNON_INTERACTIVE_BUILD:BOOL=ON \
         -DROBOTOLOGY_ENABLE_CORE:BOOL=ON \
         -DROBOTOLOGY_ENABLE_ICUB_HEAD:BOOL=ON \
-        -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \ 
         # for enabling robometry
         -DROBOTOLOGY_ENABLE_DYNAMICS:BOOL=ON \ 
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
         -DFETCHCONTENT_QUIET:BOOL=ON \
-        -DYCM_USE_CMAKE_PROPOSED=ON \
         &&\
         # Build all the projects
         cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
