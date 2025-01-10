@@ -54,7 +54,6 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         -DROBOTOLOGY_ENABLE_ROBOT_TESTING:BOOL=ON \
         -DROBOTOLOGY_USES_GAZEBO=OFF \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
-        -DYCM_EP_INSTALL_DIR=${INSTALL_DIR} \
         &&\
         # Build all the projects
         cmake --build . -- ${CMAKE_EXTRA_OPTIONS}
